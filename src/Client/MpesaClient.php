@@ -29,7 +29,7 @@ class MpesaClient implements MpesaClientContract
         $this->authenticator->setToken($token);
     }
 
-    /** {@inheritdoc} */
+    /** @param  array<string, mixed>  $data */
     public function post(Paths $path, array $data): MpesaResponse
     {
         $response = $this->send($path, $data);
@@ -42,7 +42,11 @@ class MpesaClient implements MpesaClientContract
         return MpesaResponse::fromResponse($response);
     }
 
-    /** Send request, catching connection errors as MpesaNetworkException. */
+    /**
+     * Send request, catching connection errors as MpesaNetworkException.
+     *
+     * @param  array<string, mixed>  $data
+     */
     private function send(Paths $path, array $data): ResponseInterface
     {
         try {
