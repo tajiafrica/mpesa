@@ -19,7 +19,7 @@ beforeEach(fn () => $this->config = MpesaConfig::fromArray([
     'consumer_secret' => 'secret',
     'environment' => 'sandbox',
     'base_url' => 'https://sandbox.safaricom.co.ke',
-    'c2b' => ['shortcode' => '600984'],
+    'shortcode' => '600984',
 ]));
 
 it('fetches and caches oauth token', function () {
