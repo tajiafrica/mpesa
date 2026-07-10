@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TajiAfrica\Mpesa\Support;
 
-trait GeneratesPassword
+trait HasHelpers
 {
     public function timestamp(): string
     {

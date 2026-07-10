@@ -4,7 +4,7 @@ Laravel SDK for Safaricom's M-Pesa Daraja API.
 
 ## Status
 
-C2B Register URLs and STK Push implemented and tested.
+C2B Register URLs, STK Push, and Transaction Status implemented and tested.
 
 ## Install
 
@@ -29,6 +29,11 @@ MPESA_C2B_VALIDATION_URL=https://yourdomain.com/api/c2b/validation
 MPESA_STK_PASSKEY=your_passkey
 MPESA_STK_CALLBACK_URL=https://yourdomain.com/api/stk/callback
 MPESA_STK_TRANSACTION_TYPE=CustomerPayBillOnline
+
+MPESA_STATUS_INITIATOR_NAME=your_initiator
+MPESA_STATUS_SECURITY_CREDENTIAL=your_security_credential
+MPESA_STATUS_RESULT_URL=https://yourdomain.com/api/status/result
+MPESA_STATUS_TIMEOUT_URL=https://yourdomain.com/api/status/timeout
 ```
 
 For production, set `MPESA_ENVIRONMENT=production` and `MPESA_BASE_URL=https://api.safaricom.co.ke`.
@@ -64,6 +69,22 @@ $status = Mpesa::stkPushQuery('ws_CO_...');
 ```
 
 Result is delivered asynchronously to your `MPESA_STK_CALLBACK_URL`.
+
+## Transaction Status
+
+Queries the status of any transaction by M-Pesa receipt number or original conversation ID. Async — result comes to your result URL.
+
+```php
+// By M-Pesa receipt number
+Mpesa::transactionStatus()
+    ->transactionId('NEF61H8J60')
+    ->send();
+
+// By original conversation ID
+Mpesa::transactionStatus()
+    ->originalConversationId('7071-4170-...')
+    ->send();
+```
 
 ## Testing
 

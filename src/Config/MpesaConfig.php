@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace TajiAfrica\Mpesa\Config;
 
-/**
- * Immutable config value object wrapping the mpesa.php config array.
- */
 class MpesaConfig
 {
     public function __construct(
@@ -22,6 +19,10 @@ class MpesaConfig
         public readonly ?string $stkCallbackUrl,
         public readonly string $stkTransactionType,
         public readonly ?string $stkPartyB,
+        public readonly string $statusInitiatorName,
+        public readonly string $statusSecurityCredential,
+        public readonly ?string $statusResultUrl,
+        public readonly ?string $statusTimeoutUrl,
     ) {}
 
     /**
@@ -31,6 +32,7 @@ class MpesaConfig
     {
         $c2b = $config['c2b'] ?? [];
         $stk = $config['stk'] ?? [];
+        $status = $config['status'] ?? [];
 
         return new self(
             consumerKey: $config['consumer_key'] ?? '',
@@ -45,10 +47,13 @@ class MpesaConfig
             stkCallbackUrl: $stk['callback_url'] ?? null,
             stkTransactionType: $stk['transaction_type'] ?? 'CustomerPayBillOnline',
             stkPartyB: $stk['party_b'] ?? null,
+            statusInitiatorName: $status['initiator_name'] ?? '',
+            statusSecurityCredential: $status['security_credential'] ?? '',
+            statusResultUrl: $status['result_url'] ?? null,
+            statusTimeoutUrl: $status['timeout_url'] ?? null,
         );
     }
 
-    /** Build a full request URL from base URL and path. */
     public function url(string $path): string
     {
         return $this->baseUrl.$path;
