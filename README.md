@@ -6,14 +6,38 @@ Laravel SDK for Safaricom's M-Pesa Daraja API.
 
 C2B Register URLs, STK Push, Transaction Status, and Reversal implemented and tested.
 
-## Install
+## Installation
+
+Add the repository to your `composer.json`:
+
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/your-org/mpesa"
+    }
+]
+```
+
+Then require it:
 
 ```bash
 composer require tajiafrica/mpesa
+```
+
+Laravel auto-discovers the service provider and facade. No manual registration needed.
+
+Publish the config file:
+
+```bash
 php artisan vendor:publish --tag=mpesa-config
 ```
 
+This creates `config/mpesa.php`.
+
 ## Configuration
+
+Set these environment variables in your `.env`:
 
 ```env
 MPESA_CONSUMER_KEY=your_consumer_key
@@ -22,7 +46,7 @@ MPESA_ENVIRONMENT=sandbox
 MPESA_BASE_URL=https://sandbox.safaricom.co.ke
 MPESA_SHORTCODE=600984
 SAFARICOM_PASSKEY=your_passkey
-MPESA_INITIATOR_NAME=your_initiator
+MPESA_INITIATOR_NAME=testapi
 MPESA_SECURITY_CREDENTIAL=your_security_credential
 
 # C2B
@@ -32,7 +56,6 @@ MPESA_C2B_VALIDATION_URL=https://yourdomain.com/api/c2b/validation
 
 # STK Push
 MPESA_STK_TRANSACTION_TYPE=CustomerPayBillOnline
-MPESA_STK_PARTY_B=
 MPESA_STK_CALLBACK_URL=https://yourdomain.com/api/stk/callback
 
 # Transaction Status
@@ -44,25 +67,38 @@ MPESA_REVERSAL_RESULT_URL=https://yourdomain.com/api/reversal/result
 MPESA_REVERSAL_TIMEOUT_URL=https://yourdomain.com/api/reversal/timeout
 ```
 
-For production, set `MPESA_ENVIRONMENT=production` and `MPESA_BASE_URL=https://api.safaricom.co.ke`.
+For production:
 
-`initiator_name` and `security_credential` are shared across Transaction Status and Reversal. Operation-specific callbacks live under their respective groups.
+```env
+MPESA_ENVIRONMENT=production
+MPESA_BASE_URL=https://api.safaricom.co.ke
+```
 
-## C2B Register URLs
+Globals (`initiator_name`, `security_credential`) are shared across Transaction Status and Reversal. Operation-specific callbacks live under their own group in the config.
 
-One-time setup. Registers callback URLs so M-Pesa sends payment notifications to your server.
+## Usage
+
+All operations use the `Mpesa` facade:
+
+```php
+use TajiAfrica\Mpesa\Facades\Mpesa;
+```
+
+### C2B Register URLs
+
+One-time setup that registers callback URLs with Safaricom so M-Pesa sends payment notifications to your server.
 
 ```php
 Mpesa::registerC2BUrls();
 ```
 
-- **Sandbox** — register before each simulation. Overwritable.
-- **Production** — register once. To change, delete existing URLs via [Daraja portal](https://developer.safaricom.co.ke/SelfServices?tab=urlmanagement) (requires two Business Manager/Admin operators on the [M-Pesa Org portal](https://org.ke.m-pesa.com/orglogin.action)), then re-register.
+- **Sandbox** — register before each test simulation. URLs are overwritable.
+- **Production** — register once. To change, delete existing URLs via the [Daraja portal](https://developer.safaricom.co.ke/SelfServices?tab=urlmanagement) (requires two Business Manager/Admin operators on the [M-Pesa Org portal](https://org.ke.m-pesa.com/orglogin.action)), then re-register.
 - URLs must be HTTPS in production.
 
-## STK Push (Lipa na M-Pesa)
+### STK Push (Lipa Na M-Pesa Online)
 
-Sends a payment prompt to a customer's phone. They enter their PIN to complete the transaction.
+Sends a payment prompt to the customer's phone. They enter their M-Pesa PIN to authorise.
 
 ```php
 $response = Mpesa::stkPush()
@@ -72,17 +108,18 @@ $response = Mpesa::stkPush()
     ->description('Order payment')
     ->send();
 
-$response->get('CheckoutRequestID'); // wc_CO_...
-
-// Query transaction status
-$status = Mpesa::stkPushQuery('ws_CO_...');
+$checkoutRequestId = $response->get('CheckoutRequestID');
 ```
 
-Result is delivered asynchronously to your `MPESA_STK_CALLBACK_URL`.
+The result arrives asynchronously at your `MPESA_STK_CALLBACK_URL`. Query the status later:
 
-## Transaction Status
+```php
+$status = Mpesa::stkPushQuery($checkoutRequestId);
+```
 
-Queries the status of any transaction by M-Pesa receipt number or original conversation ID. Async — result comes to your result URL.
+### Transaction Status
+
+Query the status of any transaction by M-Pesa receipt number or original conversation ID. Async — the result is delivered to your result URL.
 
 ```php
 // By M-Pesa receipt number
@@ -96,9 +133,9 @@ Mpesa::transactionStatus()
     ->send();
 ```
 
-## Reversal
+### Reversal
 
-Reverses a completed transaction. Requires an M-Pesa receipt number, the original amount, and remarks.
+Reverse a completed transaction using the original M-Pesa receipt number.
 
 ```php
 Mpesa::reversal()
@@ -108,7 +145,17 @@ Mpesa::reversal()
     ->send();
 ```
 
-Async — result arrives at your `MPESA_REVERSAL_RESULT_URL`.
+Async — the result arrives at your `MPESA_REVERSAL_RESULT_URL`.
+
+## Response
+
+Every `send()` call returns an `MpesaResponse` instance:
+
+```php
+$response->successful();    // bool — true when ResponseCode === "0"
+$response->get('key');      // mixed — single field from the response
+$response->raw();           // array — full decoded payload
+```
 
 ## Testing
 
