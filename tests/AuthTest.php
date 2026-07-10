@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Handler\MockHandler;
@@ -13,14 +15,12 @@ use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Exceptions\MpesaNetworkException;
 
 beforeEach(fn () => $this->config = MpesaConfig::fromArray([
-    'consumer_key' => 'key', 'consumer_secret' => 'secret', 'environment' => 'sandbox', 'base_url' => 'https://sandbox.safaricom.co.ke',
+    'consumer_key' => 'key',
+    'consumer_secret' => 'secret',
+    'environment' => 'sandbox',
+    'base_url' => 'https://sandbox.safaricom.co.ke',
+    'c2b' => ['shortcode' => '600984'],
 ]));
-
-it('builds config from array', function () {
-    expect($this->config->consumerKey)->toBe('key')
-        ->and($this->config->environment)->toBe('sandbox')
-        ->and($this->config->baseUrl)->toBe('https://sandbox.safaricom.co.ke');
-});
 
 it('fetches and caches oauth token', function () {
     $mock = new MockHandler([

@@ -37,6 +37,14 @@ class MpesaResponse
     }
 
     /**
+     * Whether the API responded with a success code (ResponseCode === "0").
+     */
+    public function successful(): bool
+    {
+        return ($this->data['ResponseCode'] ?? null) === '0';
+    }
+
+    /**
      * Return the full decoded response as an array.
      */
     public function raw(): array
