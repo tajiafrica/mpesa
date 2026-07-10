@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TajiAfrica\Mpesa\Facades;
 
 use Illuminate\Support\Facades\Facade;

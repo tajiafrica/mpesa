@@ -16,11 +16,15 @@
         "guzzlehttp/guzzle": "^7.14"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.5",
+        "larastan/larastan": "^3.10",
         "laravel/boost": "^2.4",
+        "laravel/pint": "^1.29",
         "mockery/mockery": "^1.6",
         "orchestra/testbench": "^11.0",
         "pestphp/pest": "^4.0",
-        "pestphp/pest-plugin-laravel": "^4.0"
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "rector/rector": "^2.5"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +35,11 @@
         "psr-4": {
             "TajiAfrica\\Mpesa\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "analyse": [
+            "./vendor/bin/phpstan analyse --memory-limit=1G"
+        ]
     },
     "extra": {
         "laravel": {
