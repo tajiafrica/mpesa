@@ -7,24 +7,12 @@ namespace TajiAfrica\Mpesa\Client\Contracts;
 use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
 
-/**
- * HTTP client for the M-Pesa Daraja API.
- *
- * Handles authentication, request sending, response wrapping,
- * and transparent 401 retry when a stale user token is detected.
- */
+/** HTTP client contract for authenticated Daraja API requests. */
 interface MpesaClient
 {
-    /**
-     * Provide a custom OAuth token to override auto-fetching.
-     */
+    /** Override the OAuth token (null to clear). */
     public function setToken(?string $token): void;
 
-    /**
-     * Send an authenticated POST request.
-     *
-     * @param  Paths  $path  API endpoint (from the Paths enum)
-     * @param  array<string, mixed>  $data  Request payload
-     */
+    /** Send an authenticated POST and return a wrapped response. */
     public function post(Paths $path, array $data): MpesaResponse;
 }

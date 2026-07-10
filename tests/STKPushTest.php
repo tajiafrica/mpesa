@@ -18,8 +18,8 @@ beforeEach(fn () => $this->config = MpesaConfig::fromArray([
     'environment' => 'sandbox',
     'base_url' => 'https://sandbox.safaricom.co.ke',
     'shortcode' => '174379',
+    'passkey' => 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919',
     'stk' => [
-        'passkey' => 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919',
         'callback_url' => 'https://example.com/callback',
     ],
 ]));

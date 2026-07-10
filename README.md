@@ -4,7 +4,7 @@ Laravel SDK for Safaricom's M-Pesa Daraja API.
 
 ## Status
 
-C2B Register URLs, STK Push, and Transaction Status implemented and tested.
+C2B Register URLs, STK Push, Transaction Status, and Reversal implemented and tested.
 
 ## Install
 
@@ -21,22 +21,32 @@ MPESA_CONSUMER_SECRET=your_consumer_secret
 MPESA_ENVIRONMENT=sandbox
 MPESA_BASE_URL=https://sandbox.safaricom.co.ke
 MPESA_SHORTCODE=600984
+SAFARICOM_PASSKEY=your_passkey
+MPESA_INITIATOR_NAME=your_initiator
+MPESA_SECURITY_CREDENTIAL=your_security_credential
 
+# C2B
 MPESA_C2B_RESPONSE_TYPE=Completed
 MPESA_C2B_CONFIRMATION_URL=https://yourdomain.com/api/c2b/confirmation
 MPESA_C2B_VALIDATION_URL=https://yourdomain.com/api/c2b/validation
 
-MPESA_STK_PASSKEY=your_passkey
-MPESA_STK_CALLBACK_URL=https://yourdomain.com/api/stk/callback
+# STK Push
 MPESA_STK_TRANSACTION_TYPE=CustomerPayBillOnline
+MPESA_STK_PARTY_B=
+MPESA_STK_CALLBACK_URL=https://yourdomain.com/api/stk/callback
 
-MPESA_STATUS_INITIATOR_NAME=your_initiator
-MPESA_STATUS_SECURITY_CREDENTIAL=your_security_credential
+# Transaction Status
 MPESA_STATUS_RESULT_URL=https://yourdomain.com/api/status/result
 MPESA_STATUS_TIMEOUT_URL=https://yourdomain.com/api/status/timeout
+
+# Reversal
+MPESA_REVERSAL_RESULT_URL=https://yourdomain.com/api/reversal/result
+MPESA_REVERSAL_TIMEOUT_URL=https://yourdomain.com/api/reversal/timeout
 ```
 
 For production, set `MPESA_ENVIRONMENT=production` and `MPESA_BASE_URL=https://api.safaricom.co.ke`.
+
+`initiator_name` and `security_credential` are shared across Transaction Status and Reversal. Operation-specific callbacks live under their respective groups.
 
 ## C2B Register URLs
 
@@ -85,6 +95,20 @@ Mpesa::transactionStatus()
     ->originalConversationId('7071-4170-...')
     ->send();
 ```
+
+## Reversal
+
+Reverses a completed transaction. Requires an M-Pesa receipt number, the original amount, and remarks.
+
+```php
+Mpesa::reversal()
+    ->transactionId('PDU91HIVIT')
+    ->amount(200)
+    ->remarks('Payment reversal')
+    ->send();
+```
+
+Async — result arrives at your `MPESA_REVERSAL_RESULT_URL`.
 
 ## Testing
 

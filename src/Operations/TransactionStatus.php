@@ -10,6 +10,7 @@ use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Exceptions\MpesaValidationException;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
 
+/** Fluent builder for querying the status of an M-Pesa transaction. */
 class TransactionStatus
 {
     private ?string $transactionId = null;
@@ -25,6 +26,7 @@ class TransactionStatus
         private readonly MpesaConfig $config,
     ) {}
 
+    /** Query by the transaction ID returned during the original request. */
     public function transactionId(string $id): static
     {
         $this->transactionId = $id;
@@ -32,6 +34,7 @@ class TransactionStatus
         return $this;
     }
 
+    /** Query by the original conversation ID as a fallback. */
     public function originalConversationId(string $id): static
     {
         $this->originalConversationId = $id;
@@ -39,6 +42,7 @@ class TransactionStatus
         return $this;
     }
 
+    /** Optional remarks for the status query. */
     public function remarks(string $remarks): static
     {
         $this->remarks = $remarks;
@@ -46,6 +50,7 @@ class TransactionStatus
         return $this;
     }
 
+    /** Optional occasion field for the status query. */
     public function occasion(string $occasion): static
     {
         $this->occasion = $occasion;
@@ -53,6 +58,7 @@ class TransactionStatus
         return $this;
     }
 
+    /** Validate (transactionId or originalConversationId) and send. */
     public function send(): MpesaResponse
     {
         $request = TransactionStatusRequest::from([
@@ -67,8 +73,8 @@ class TransactionStatus
         }
 
         return $this->client->post(Paths::TransactionStatus, [
-            'Initiator' => $this->config->statusInitiatorName,
-            'SecurityCredential' => $this->config->statusSecurityCredential,
+            'Initiator' => $this->config->initiatorName,
+            'SecurityCredential' => $this->config->securityCredential,
             'CommandID' => 'TransactionStatusQuery',
             'TransactionID' => $request->transactionId ?? '',
             'OriginalConversationID' => $request->originalConversationId ?? '',

@@ -9,12 +9,7 @@ use TajiAfrica\Mpesa\Client\Contracts\Authenticator;
 use TajiAfrica\Mpesa\Config\MpesaConfig;
 use TajiAfrica\Mpesa\Enums\Paths;
 
-/**
- * OAuth 2.0 client-credentials authenticator for the Daraja API.
- *
- * Fetches a token on first call and caches it in memory for 3600 seconds.
- * Supports optional user-provided tokens via ::setToken().
- */
+/** Fetches and caches OAuth tokens; supports user-supplied token override. */
 class OAuthAuthenticator implements Authenticator
 {
     private ?string $cachedToken = null;
@@ -43,14 +38,7 @@ class OAuthAuthenticator implements Authenticator
         $this->userToken = null;
     }
 
-    /**
-     * Get a valid OAuth token.
-     *
-     * Priority:
-     * 1. User-provided token (via ::setToken())
-     * 2. In-memory cached token (if still within 3600s expiry)
-     * 3. Fresh token fetched from the OAuth endpoint
-     */
+    /** Priority: user token, cached token, fresh fetch. */
     public function getToken(): string
     {
         if ($this->userToken !== null) {

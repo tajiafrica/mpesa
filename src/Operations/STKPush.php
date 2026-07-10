@@ -10,6 +10,7 @@ use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
 use TajiAfrica\Mpesa\Support\HasHelpers;
 
+/** Fluent builder for M-Pesa STK Push (Lipa Na M-Pesa Online). */
 class STKPush
 {
     use HasHelpers;
@@ -27,6 +28,7 @@ class STKPush
         private readonly MpesaConfig $config,
     ) {}
 
+    /** Set the transaction amount in KES. */
     public function amount(int|string $amount): static
     {
         $this->amount = (int) $amount;
@@ -34,6 +36,7 @@ class STKPush
         return $this;
     }
 
+    /** Set the customer phone number (254 format). */
     public function phone(string $phone): static
     {
         $this->phone = $phone;
@@ -41,6 +44,7 @@ class STKPush
         return $this;
     }
 
+    /** Set the account reference (e.g. invoice number). */
     public function reference(string $reference): static
     {
         $this->reference = $reference;
@@ -48,6 +52,7 @@ class STKPush
         return $this;
     }
 
+    /** Set an optional transaction description. */
     public function description(string $description): static
     {
         $this->description = $description;
@@ -55,6 +60,7 @@ class STKPush
         return $this;
     }
 
+    /** Validate and send the STK Push request. */
     public function send(): MpesaResponse
     {
         $request = STKPushRequest::from([

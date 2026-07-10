@@ -6,7 +6,7 @@ namespace TajiAfrica\Mpesa\Operations;
 
 use TajiAfrica\Mpesa\Exceptions\MpesaValidationException;
 
-/** Request DTO that validates STK Push input before sending. */
+/** Validated STK Push request data transfer object. */
 class STKPushRequest
 {
     public function __construct(
