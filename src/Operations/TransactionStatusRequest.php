@@ -15,7 +15,11 @@ class TransactionStatusRequest
         public readonly ?string $occasion = null,
     ) {}
 
-    /** Create from raw data, passing through nulls for lazy validation. */
+    /**
+     * Create from raw data, passing through nulls for lazy validation.
+     *
+     * @param  array<string, mixed>  $data
+     */
     public static function from(array $data): self
     {
         return new self(

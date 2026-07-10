@@ -15,7 +15,11 @@ class ReversalRequest
         public readonly string $remarks,
     ) {}
 
-    /** Create from raw data, throwing on missing required fields. */
+    /**
+     * Create from raw data, throwing on missing required fields.
+     *
+     * @param  array<string, mixed>  $data
+     */
     public static function from(array $data): self
     {
         return new self(

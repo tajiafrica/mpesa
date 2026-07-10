@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 /** Universal response envelope for all M-Pesa API calls. */
 class MpesaResponse
 {
+    /** @param  array<string, mixed>  $data */
     public function __construct(
         private readonly array $data,
     ) {}
@@ -31,7 +32,7 @@ class MpesaResponse
         return ($this->data['ResponseCode'] ?? null) === '0';
     }
 
-    /** Return the full decoded response as an array. */
+    /** @return array<string, mixed> */
     public function raw(): array
     {
         return $this->data;

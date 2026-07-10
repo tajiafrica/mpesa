@@ -13,6 +13,10 @@ interface MpesaClient
     /** Override the OAuth token (null to clear). */
     public function setToken(?string $token): void;
 
-    /** Send an authenticated POST and return a wrapped response. */
+    /**
+     * Send an authenticated POST and return a wrapped response.
+     *
+     * @param  array<string, mixed>  $data
+     */
     public function post(Paths $path, array $data): MpesaResponse;
 }

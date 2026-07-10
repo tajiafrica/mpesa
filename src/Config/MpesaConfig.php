@@ -28,7 +28,11 @@ class MpesaConfig
         public readonly ?string $reversalTimeoutUrl,
     ) {}
 
-    /** Create a config instance from the published config array. */
+    /**
+     * Create a config instance from the published config array.
+     *
+     * @param  array<string, mixed>  $config
+     */
     public static function fromArray(array $config): self
     {
         $c2b = $config['c2b'] ?? [];
