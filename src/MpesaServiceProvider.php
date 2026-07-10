@@ -10,6 +10,7 @@ use TajiAfrica\Mpesa\Client\MpesaClient;
 use TajiAfrica\Mpesa\Client\OAuthAuthenticator;
 use TajiAfrica\Mpesa\Config\MpesaConfig;
 
+/** Laravel service provider that wires the M-Pesa SDK singletons. */
 class MpesaServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -34,6 +35,7 @@ class MpesaServiceProvider extends ServiceProvider
         $this->app->singleton('mpesa', fn () => new Mpesa(app(MpesaClient::class), app(MpesaConfig::class)));
     }
 
+    /** Publish the config file for user customization. */
     public function boot(): void
     {
         $this->publishes([

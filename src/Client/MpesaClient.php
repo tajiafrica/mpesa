@@ -14,13 +14,7 @@ use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Exceptions\MpesaNetworkException;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
 
-/**
- * Default M-Pesa API client powered by Guzzle.
- *
- * Attaches the Bearer token from the Authenticator, wraps responses
- * in MpesaResponse, and transparently retries once on 401 when a
- * user-provided token has expired.
- */
+/** Default Daraja API client — Guzzle-based with Bearer auth and 401 retry. */
 class MpesaClient implements MpesaClientContract
 {
     public function __construct(
@@ -48,11 +42,7 @@ class MpesaClient implements MpesaClientContract
         return MpesaResponse::fromResponse($response);
     }
 
-    /**
-     * Execute the HTTP request and return the raw PSR-7 response.
-     *
-     * @throws MpesaNetworkException On connection failure (timeout, DNS, TLS).
-     */
+    /** Send request, catching connection errors as MpesaNetworkException. */
     private function send(Paths $path, array $data): ResponseInterface
     {
         try {
