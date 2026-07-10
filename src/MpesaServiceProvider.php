@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TajiAfrica\Mpesa;
 
 use Illuminate\Support\ServiceProvider;
@@ -8,13 +10,13 @@ class MpesaServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('mpesa', fn ($app) => new Mpesa($app['config']->get('mpesa')));
+        $this->app->singleton('mpesa', fn ($app): \TajiAfrica\Mpesa\Mpesa => new Mpesa($app['config']->get('mpesa')));
     }
 
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/mpesa.php' => config_path('mpesa.php'),
+            __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
         ], 'mpesa-config');
     }
 }
