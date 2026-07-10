@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "tajiafrica/mpesa",
     "description": "M-Pesa SDK for Laravel — comprehensive, config-driven, with rich exception handling",
     "type": "library",
@@ -21,6 +22,7 @@
         "laravel/boost": "^2.4",
         "laravel/pint": "^1.29",
         "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
         "orchestra/testbench": "^11.0",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-laravel": "^4.0",

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+declare(strict_types=1);
+
 namespace TajiAfrica\Mpesa;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -51,6 +53,7 @@ class MpesaServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
+            __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
             __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
         ], 'mpesa-config');
     }
