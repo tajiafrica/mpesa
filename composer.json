@@ -42,6 +42,12 @@
             }
         }
     },
+    "scripts": {
+        "pint": "pint",
+        "lint": "rector process --dry-run",
+        "lint:fix": "rector process",
+        "test": "pest"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
