@@ -37,7 +37,13 @@ One-time setup. Registers your callback URLs so M-Pesa sends payment notificatio
 Mpesa::registerC2BUrls();
 ```
 
-Call this in a deploy script or artisan command — not per-request. URLs are global per shortcode and hitting the endpoint creates a permanent replacement (production supports a one-time, no-overwrite policy; contact Safaricom to change). Production URLs must be HTTPS.
+**How often to register:**
+- **Sandbox** — before each simulation. You can overwrite freely.
+- **Production** — register once.
+
+**To delete registered URLs:** go to [Daraja portal URL management](https://developer.safaricom.co.ke/SelfServices?tab=urlmanagement) (requires two operators with Business Manager or Business Administrator role on the [M-Pesa Org portal](https://org.ke.m-pesa.com/orglogin.action) to validate the deletion). After deletion, you can re-register.
+
+Production URLs must be HTTPS.
 
 ## Testing
 
