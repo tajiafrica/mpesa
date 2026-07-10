@@ -7,11 +7,18 @@ return [
     'consumer_key' => env('MPESA_CONSUMER_KEY'),
     'consumer_secret' => env('MPESA_CONSUMER_SECRET'),
     'base_url' => env('MPESA_BASE_URL', 'https://sandbox.safaricom.co.ke'),
+    'shortcode' => env('MPESA_SHORTCODE'),
 
     'c2b' => [
-        'shortcode' => env('MPESA_C2B_SHORTCODE'),
         'response_type' => env('MPESA_C2B_RESPONSE_TYPE', 'Completed'),
         'confirmation_url' => env('MPESA_C2B_CONFIRMATION_URL'),
         'validation_url' => env('MPESA_C2B_VALIDATION_URL'),
+    ],
+
+    'stk' => [
+        'passkey' => env('MPESA_STK_PASSKEY'),
+        'callback_url' => env('MPESA_STK_CALLBACK_URL'),
+        'transaction_type' => env('MPESA_STK_TRANSACTION_TYPE', 'CustomerPayBillOnline'),
+        'party_b' => env('MPESA_STK_PARTY_B'),
     ],
 ];

@@ -17,8 +17,8 @@ it('registers c2b urls and returns response', function () {
         'consumer_secret' => 'secret',
         'environment' => 'sandbox',
         'base_url' => 'https://sandbox.safaricom.co.ke',
+        'shortcode' => '600984',
         'c2b' => [
-            'shortcode' => '600984',
             'confirmation_url' => 'https://example.com/confirmation',
             'validation_url' => 'https://example.com/validation',
         ],

@@ -26,7 +26,7 @@ class MpesaServiceProvider extends ServiceProvider
                 'consumer_key' => 'required|string',
                 'consumer_secret' => 'required|string',
                 'environment' => 'required|in:sandbox,production',
-                'c2b.shortcode' => 'required|string',
+                'shortcode' => 'required|string',
             ]);
 
             return MpesaConfig::fromArray($config);
