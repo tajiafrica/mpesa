@@ -1,0 +1,11 @@
+/vendor/
+/.codex
+/.phpunit.cache
+/.phpunit.result.cache
+/composer.lock
+/.mcp.json
+/CLAUDE.md
+/AGENTS.md
+boost.json
+.phpstan*
+.php-cs-fixer*
