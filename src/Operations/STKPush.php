@@ -8,11 +8,11 @@ use TajiAfrica\Mpesa\Client\Contracts\MpesaClient;
 use TajiAfrica\Mpesa\Config\MpesaConfig;
 use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
-use TajiAfrica\Mpesa\Support\GeneratesPassword;
+use TajiAfrica\Mpesa\Support\HasHelpers;
 
 class STKPush
 {
-    use GeneratesPassword;
+    use HasHelpers;
 
     private ?int $amount = null;
 

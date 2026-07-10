@@ -8,12 +8,13 @@ use TajiAfrica\Mpesa\Client\Contracts\MpesaClient;
 use TajiAfrica\Mpesa\Config\MpesaConfig;
 use TajiAfrica\Mpesa\Enums\Paths;
 use TajiAfrica\Mpesa\Operations\STKPush;
+use TajiAfrica\Mpesa\Operations\TransactionStatus;
 use TajiAfrica\Mpesa\Response\MpesaResponse;
-use TajiAfrica\Mpesa\Support\GeneratesPassword;
+use TajiAfrica\Mpesa\Support\HasHelpers;
 
 class Mpesa
 {
-    use GeneratesPassword;
+    use HasHelpers;
 
     public function __construct(
         private readonly MpesaClient $client,
@@ -53,5 +54,10 @@ class Mpesa
             'Timestamp' => $timestamp,
             'CheckoutRequestID' => $checkoutRequestId,
         ]);
+    }
+
+    public function transactionStatus(): TransactionStatus
+    {
+        return new TransactionStatus($this->client, $this->config);
     }
 }

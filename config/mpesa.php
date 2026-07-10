@@ -21,4 +21,11 @@ return [
         'transaction_type' => env('MPESA_STK_TRANSACTION_TYPE', 'CustomerPayBillOnline'),
         'party_b' => env('MPESA_STK_PARTY_B'),
     ],
+
+    'status' => [
+        'initiator_name' => env('MPESA_STATUS_INITIATOR_NAME'),
+        'security_credential' => env('MPESA_STATUS_SECURITY_CREDENTIAL'),
+        'result_url' => env('MPESA_STATUS_RESULT_URL'),
+        'timeout_url' => env('MPESA_STATUS_TIMEOUT_URL'),
+    ],
 ];

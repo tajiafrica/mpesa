@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TajiAfrica\Mpesa;
 
 use GuzzleHttp\Client as GuzzleClient;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use TajiAfrica\Mpesa\Client\MpesaClient;
 use TajiAfrica\Mpesa\Client\OAuthAuthenticator;
@@ -19,18 +18,7 @@ class MpesaServiceProvider extends ServiceProvider
 
         $this->app->singleton(GuzzleClient::class, fn () => new GuzzleClient);
 
-        $this->app->singleton(MpesaConfig::class, function () {
-            $config = config('mpesa');
-
-            Validator::validate($config, [
-                'consumer_key' => 'required|string',
-                'consumer_secret' => 'required|string',
-                'environment' => 'required|in:sandbox,production',
-                'shortcode' => 'required|string',
-            ]);
-
-            return MpesaConfig::fromArray($config);
-        });
+        $this->app->singleton(MpesaConfig::class, fn () => MpesaConfig::fromArray(config('mpesa')));
 
         $this->app->singleton(MpesaClient::class, function () {
             $mpesaConfig = app(MpesaConfig::class);
