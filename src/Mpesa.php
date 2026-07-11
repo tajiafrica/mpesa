@@ -7,6 +7,8 @@ namespace TajiAfrica\Mpesa;
 use TajiAfrica\Mpesa\Client\Contracts\MpesaClient;
 use TajiAfrica\Mpesa\Config\MpesaConfig;
 use TajiAfrica\Mpesa\Enums\Paths;
+use TajiAfrica\Mpesa\Operations\PullQuery;
+use TajiAfrica\Mpesa\Operations\PullRegistration;
 use TajiAfrica\Mpesa\Operations\Reversal;
 use TajiAfrica\Mpesa\Operations\STKPush;
 use TajiAfrica\Mpesa\Operations\TransactionStatus;
@@ -66,6 +68,18 @@ class Mpesa
     public function transactionStatus(): TransactionStatus
     {
         return new TransactionStatus($this->client, $this->config);
+    }
+
+    /** Register the shortcode for Pull Transactions (one-time setup). */
+    public function registerPull(): MpesaResponse
+    {
+        return (new PullRegistration($this->client, $this->config))->register();
+    }
+
+    /** Begin a Pull Transactions query flow. */
+    public function pullTransactions(): PullQuery
+    {
+        return new PullQuery($this->client, $this->config);
     }
 
     /** Begin a Reversal request flow. */

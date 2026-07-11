@@ -4,7 +4,7 @@ Laravel SDK for Safaricom's M-Pesa Daraja API.
 
 ## Status
 
-C2B Register URLs, STK Push, Transaction Status, and Reversal implemented and tested.
+C2B Register URLs, STK Push, Transaction Status, Reversal, and Pull Transactions implemented and tested.
 
 ## Installation
 
@@ -65,6 +65,10 @@ MPESA_STATUS_TIMEOUT_URL=https://yourdomain.com/api/status/timeout
 # Reversal
 MPESA_REVERSAL_RESULT_URL=https://yourdomain.com/api/reversal/result
 MPESA_REVERSAL_TIMEOUT_URL=https://yourdomain.com/api/reversal/timeout
+
+# Pull Transactions
+MPESA_PULL_NOMINATED_NUMBER=254722000000
+MPESA_PULL_CALLBACK_URL=https://yourdomain.com/api/pull/callback
 ```
 
 For production:
@@ -74,7 +78,7 @@ MPESA_ENVIRONMENT=production
 MPESA_BASE_URL=https://api.safaricom.co.ke
 ```
 
-Globals (`initiator_name`, `security_credential`) are shared across Transaction Status and Reversal. Operation-specific callbacks live under their own group in the config.
+Globals (`initiator_name`, `security_credential`) are shared across Transaction Status and Reversal. Pull Transactions uses its own `nominated_number` and `callback_url` from the `pull` group. Operation-specific callbacks live under their own group in the config.
 
 ## Usage
 
@@ -146,6 +150,26 @@ Mpesa::reversal()
 ```
 
 Async — the result arrives at your `MPESA_REVERSAL_RESULT_URL`.
+
+### Pull Transactions
+
+Reconciliation tool that retrieves C2B transactions under your Pay Bill/Till number within the last 48 hours. Register once, then pull on demand.
+
+```php
+// One-time registration
+Mpesa::registerPull();
+
+// Query transactions within a time range
+Mpesa::pullTransactions()
+    ->from('2024-01-01 00:00:00')
+    ->to('2024-01-02 00:00:00')
+    ->offset(0)
+    ->send();
+```
+
+- Register Pull is a one-time setup. The shortcode must be live and operating in production.
+- The query is **synchronous** — returns transaction data directly in the response body.
+- `response_code` `1000` means success (Pull uses `1000`, not the `"0"` used by other APIs).
 
 ## Response
 

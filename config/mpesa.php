@@ -33,4 +33,9 @@ return [
         'result_url' => env('MPESA_REVERSAL_RESULT_URL'),
         'timeout_url' => env('MPESA_REVERSAL_TIMEOUT_URL'),
     ],
+
+    'pull' => [
+        'nominated_number' => env('MPESA_PULL_NOMINATED_NUMBER'),
+        'callback_url' => env('MPESA_PULL_CALLBACK_URL'),
+    ],
 ];
