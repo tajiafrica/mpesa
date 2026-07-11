@@ -26,6 +26,8 @@ class MpesaConfig
         public readonly ?string $statusTimeoutUrl,
         public readonly ?string $reversalResultUrl,
         public readonly ?string $reversalTimeoutUrl,
+        public readonly ?string $pullNominatedNumber,
+        public readonly ?string $pullCallbackUrl,
     ) {}
 
     /**
@@ -39,6 +41,7 @@ class MpesaConfig
         $stk = $config['stk'] ?? [];
         $status = $config['status'] ?? [];
         $reversal = $config['reversal'] ?? [];
+        $pull = $config['pull'] ?? [];
 
         return new self(
             consumerKey: $config['consumer_key'] ?? '',
@@ -59,6 +62,8 @@ class MpesaConfig
             statusTimeoutUrl: $status['timeout_url'] ?? null,
             reversalResultUrl: $reversal['result_url'] ?? null,
             reversalTimeoutUrl: $reversal['timeout_url'] ?? null,
+            pullNominatedNumber: $pull['nominated_number'] ?? null,
+            pullCallbackUrl: $pull['callback_url'] ?? null,
         );
     }
 

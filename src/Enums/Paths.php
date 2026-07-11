@@ -13,4 +13,6 @@ enum Paths: string
     case STKPushQuery = '/mpesa/stkpush/v1/query';
     case TransactionStatus = '/mpesa/transactionstatus/v1/query';
     case Reversal = '/mpesa/reversal/v1/request';
+    case PullRegister = '/pulltransactions/v1/register';
+    case PullQuery = '/pulltransactions/v1/query';
 }
