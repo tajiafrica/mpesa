@@ -14,7 +14,7 @@ Add the repository to your `composer.json`:
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/your-org/mpesa"
+        "url": "https://github.com/tajiafrica/mpesa"
     }
 ]
 ```
